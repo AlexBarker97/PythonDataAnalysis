@@ -1,6 +1,8 @@
 import xlrd
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
+from pandas import Series, DataFrame
 
 loc = ("D:\StudioCode\Python\Sample Dataset.xls")
 wb = xlrd.open_workbook(loc)
@@ -106,6 +108,7 @@ plt.xlabel('Time(s)')
 plt.ylabel('Power(W)')
 plt.savefig('Use3.pdf')
 
+#Cut to Use3 length
 xx1 = x1[:len(x3)]
 xx2 = x2[:len(x3)]
 xx3 = x3[:len(x3)]
@@ -154,9 +157,16 @@ while i <= len(I3)-1:
     i += 1
 i=0
 
-print(int(I1[len(I1)-1]))
-print(int(I2[len(I2)-1]))
-print(int(I3[len(I3)-1]))
+#Barchart of total power
+plt.clf()
+data = [int(I1[len(I1)-1]),int(I2[len(I2)-1]),int(I3[len(I3)-1])]
+labels = ['Use1', 'Use2', 'Use3']
+plt.xticks(range(len(data)), labels)
+plt.ylabel('Total Energy(J)')
+plt.title('Total energy used over each use (cut to use 3 length)')
+plt.bar(range(len(data)), data, color='royalblue', alpha=0.7)
+plt.grid(color='#95a5a6', linestyle='--', linewidth=2, axis='y', alpha=0.7)
+plt.savefig('TotalBar.pdf')
 
 #Plotting
 plt.clf()
@@ -185,6 +195,7 @@ plt.xlabel('Time(s)')
 plt.ylabel('Total Energy(j)')
 plt.legend(loc="upper left")
 plt.savefig('Integrals.pdf')
+plt.savefig('Integrals.png')
 
 #40s heatup
 x1_heatup = xx1[:200]
@@ -214,6 +225,6 @@ plt.plot(x1_heatup, y1_heatup, label = "Use1")
 plt.plot(x2_heatup, y2_heatup, label = "Use2")
 plt.plot(x3_heatup, y3_heatup, label = "Use3")
 plt.xlabel('Time(s)')
-plt.ylabel('Total Energy(j)')
+plt.ylabel('Total Energy(J)')
 plt.legend(loc="upper left")
 plt.savefig('Heatup140.pdf')
